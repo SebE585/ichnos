@@ -1,0 +1,11 @@
+# Runtime dependencies of the bench.
+# Python 3.10 or later (the code uses PEP 604 unions).
+pandas>=2.2
+numpy>=1.26
+pyarrow>=14          # parquet engine
+scipy>=1.11          # Mann-Whitney, parabolic interpolation
+matplotlib>=3.8      # figures only
+
+# Open pivot format. Pre-release: pinned to the versions the conformance
+# survey of the paper was measured against. See the note in the README.
+telemachus==1.0.0a3

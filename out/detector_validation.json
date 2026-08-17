@@ -1,0 +1,31 @@
+{
+  "question": "does the detector recover the Argos/GPS gap on its own?",
+  "measure": "pct_pics, share of positions the detector flags as a spike",
+  "hypothesis": "Argos greater than GPS, one-sided",
+  "primary": {
+    "gps_labels": [
+      "gps"
+    ],
+    "n_gps": 238,
+    "n_argos": 49,
+    "n_total": 287,
+    "median_gps_pct": 0.001,
+    "median_argos_pct": 0.021,
+    "U": 8357.0,
+    "p": 3.4454094386758156e-07
+  },
+  "sensitivity_with_gnss": {
+    "gps_labels": [
+      "gps",
+      "gnss"
+    ],
+    "n_gps": 239,
+    "n_argos": 49,
+    "n_total": 288,
+    "median_gps_pct": 0.001,
+    "median_argos_pct": 0.021,
+    "U": 8401.0,
+    "p": 3.0738876853938807e-07
+  },
+  "conclusion_robust": true
+}

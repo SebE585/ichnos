@@ -1,0 +1,108 @@
+{
+  "criterion": "paire intra-rafale (5-60 s) impliquant > 8.0 m/s (29 km/h)",
+  "n_intra_burst_pairs": 1434032,
+  "n_flagged": 32057,
+  "pct_overall": 2.24,
+  "median_jump_m": 266,
+  "p99_jump_m": 1280,
+  "max_jump_m": 13300,
+  "marked_by_hand_by_curators": 5,
+  "by_batch": {
+    "lot 2008": {
+      "min": 3.66,
+      "50%": 4.94,
+      "max": 17.27
+    },
+    "lot 2009": {
+      "min": 0.0,
+      "50%": 0.0,
+      "max": 0.0
+    }
+  },
+  "par_porteur": {
+    "LA1": {
+      "batch": "lot 2008",
+      "pct": 8.0,
+      "n_flagged": 4306
+    },
+    "LA11": {
+      "batch": "lot 2009",
+      "pct": 0.0,
+      "n_flagged": 0
+    },
+    "LA12": {
+      "batch": "lot 2009",
+      "pct": 0.0,
+      "n_flagged": 1
+    },
+    "LA13": {
+      "batch": "lot 2009",
+      "pct": 0.0,
+      "n_flagged": 3
+    },
+    "LA14": {
+      "batch": "lot 2009",
+      "pct": 0.0,
+      "n_flagged": 0
+    },
+    "LA15": {
+      "batch": "lot 2009",
+      "pct": 0.0,
+      "n_flagged": 0
+    },
+    "LA2": {
+      "batch": "lot 2008",
+      "pct": 4.06,
+      "n_flagged": 3845
+    },
+    "LA26": {
+      "batch": "lot 2009",
+      "pct": 0.0,
+      "n_flagged": 3
+    },
+    "LA27": {
+      "batch": "lot 2009",
+      "pct": 0.0,
+      "n_flagged": 0
+    },
+    "LA3": {
+      "batch": "lot 2008",
+      "pct": 3.66,
+      "n_flagged": 3689
+    },
+    "LA4": {
+      "batch": "lot 2008",
+      "pct": 6.13,
+      "n_flagged": 2786
+    },
+    "LA5": {
+      "batch": "lot 2008",
+      "pct": 17.27,
+      "n_flagged": 6423
+    },
+    "LA6": {
+      "batch": "lot 2008",
+      "pct": 5.61,
+      "n_flagged": 3561
+    },
+    "LA7": {
+      "batch": "lot 2008",
+      "pct": 4.26,
+      "n_flagged": 4222
+    },
+    "LA8": {
+      "batch": "lot 2008",
+      "pct": 3.99,
+      "n_flagged": 3218
+    }
+  },
+  "hypothese_concurrente_testee": {
+    "claim": "degraded timestamps on the 2008 batch",
+    "verdict": "refutee",
+    "preuves": [
+      "same modal step of 10 s in both batches (81 % / 73 %)",
+      "meme part d'horodatages a secondes non nulles",
+      "at long steps of 15-40 min the two batches are indistinguishable (p99 of implied speed: 0.94 vs 0.99 m/s)"
+    ]
+  }
+}

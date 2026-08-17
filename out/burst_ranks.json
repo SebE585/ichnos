@@ -1,0 +1,40 @@
+{
+  "n_fixes": 2930263,
+  "n_bursts": 753046,
+  "n_intra_burst_pairs": 1434032,
+  "n_flagged": 32057,
+  "n_flagged_first_pair": 29441,
+  "first_pair_share_pct": 91.84,
+  "residue_after_targeted_remedy": 2616,
+  "blanket_remedy_fixes": 753046,
+  "blanket_remedy_pct": 25.7,
+  "targeted_remedy_fixes": 29441,
+  "targeted_remedy_pct": 1.0,
+  "sound_positions_lost_if_blanket": 723605,
+  "subsampling": {
+    "samples_if_one_per_burst": 753046,
+    "of_which_contaminated": 29441,
+    "contaminated_share_pct": 3.91,
+    "position_error_m": {
+      "median": 241,
+      "p90": 722,
+      "max": 13300
+    },
+    "implied_speed_at_20min_mps": {
+      "median": 0.201,
+      "p90": 0.602
+    },
+    "caught_by_speed_filter_at_20min": {
+      "above_1_mps": 336,
+      "above_2_mps": 7,
+      "above_4_mps": 2,
+      "above_8_mps": 1
+    },
+    "n_four_fix_bursts_tested": 28922,
+    "fix1_distance_to_centroid_m": 242.7,
+    "fix2_distance_to_centroid_m": 2.2,
+    "fix1_is_outlier_pct": 100.0
+  },
+  "cross_check_fleet_health": "ok",
+  "flagged_fixes_list": "etosha_flagged_fixes.csv (29,441 rows)"
+}

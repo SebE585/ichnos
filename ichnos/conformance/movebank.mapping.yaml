@@ -1,0 +1,15 @@
+# Declarative Movebank mapping for the pivot format's CSV converter.
+# A Movebank export carries several individuals, so device_id must be a
+# COLUMN and not a scalar. That is the first thing the survey tests.
+dataset_id: movebank_corpus
+device_id: {column: individual-local-identifier}
+
+read:
+  sep: ','
+
+columns:
+  ts: {column: timestamp, unit: iso8601}
+  lat: {column: location-lat, unit: deg}
+  lon: {column: location-long, unit: deg}
+  speed_mps: {column: ground-speed, unit: m/s}
+  heading_deg: {column: heading, unit: deg}

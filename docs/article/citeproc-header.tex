@@ -1,0 +1,46 @@
+% Bloc que pandoc injecte lui-meme dans son gabarit par defaut quand --citeproc
+% est actif, et que les gabarits de paper-forge ne portent pas : ils ont ete
+% ecrits pour des livrables sans bibliographie. A remonter dans
+% latex/common/base_pandoc.tex plutot que de le recopier a chaque article.
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut #1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut #1\strut}}
+\newcommand{\CSLRightInline}[1]{%
+  \parbox[t]{\dimexpr\linewidth-\csllabelwidth\relax}{\strut #1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+% hyperref n'est pas garanti charge par le gabarit, et \hyper@linkstart exige
+% que @ soit une lettre. On lie si on peut, on rend le texte sinon.
+\makeatletter
+\@ifundefined{hyperlink}
+  {\newcommand{\citeproc}[2]{#2}}
+  {\newcommand{\citeproc}[2]{\hyperlink{#1}{#2}}}
+\makeatother
+\newenvironment{CSLReferences}[2]{%
+  \setlength{\parindent}{0pt}%
+  \everypar{\hangindent=\cslhangindent}\ignorespaces}{\par}
+
+% divs_to_environments.lua convertit tout div porteur d'une classe en
+% environnement LaTeX. Or citeproc emet lui-meme un div #refs de classe
+% `references`, que le filtre transforme donc en \begin{references} sans que
+% rien ne le definisse. Le filtre ne peut pas savoir que ce div n'est pas de
+% l'auteur : a signaler en amont plutot qu'a contourner ici.
+\newenvironment{references}{}{}
+% meme cause : chaque entree de bibliographie est un div de classe csl-entry.
+\newenvironment{csl-entry}{\par\hangindent=\cslhangindent}{\par}
+
+% BUG paper-forge : latex/common/base_typography.tex contient
+%   pdftitle={$title$}, pdfauthor={$author$}
+% mais ce fichier est un include LaTeX et non un gabarit pandoc, donc la
+% substitution n'a jamais lieu et LaTeX recoit litteralement $title$, qu'il
+% compose en mode mathematique. Tous les PDF de la chaine portent donc `title`
+% et `author` en metadonnees. A corriger en amont : soit deplacer le
+% hypersetup dans le gabarit, soit passer par \pdfstringdef.
+\hypersetup{
+  pdftitle={Instrument before inference: device metrology on 447 public
+            animal-tracking datasets},
+  pdfauthor={Sebastien Edet},
+  pdfsubject={Movement ecology, biologging, data quality}
+}
