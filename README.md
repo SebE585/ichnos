@@ -128,9 +128,11 @@ a **pre-release** (`telemachus==1.0.0a3`), pinned in `requirements.txt` to the
 version the published figure was measured against; the survey is the only part
 of the bench that needs it.
 
-The paper is versioned as its markdown source and figures, not as a PDF: a
-binary that changes on every edit bloats the history and drifts from its
-source. `make paper` builds it, and each release carries the built PDF.
+The paper is here in both forms: its markdown source under `docs/article/`,
+and the built PDF at `docs/article/outputs/`. Versioning a build product has
+one real risk, which is shipping a PDF that no longer matches its text, so the
+release script refuses to run when the PDF is older than the markdown.
+`make paper` rebuilds it.
 
 This repository holds what reproduces the paper. The bench carries further
 measurements that the paper does not use, and they are not shipped here.
