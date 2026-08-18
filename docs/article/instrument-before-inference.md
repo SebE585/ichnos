@@ -747,9 +747,11 @@ looking for it.
 # Data and code availability
 
 The bench, the 353 per-dataset quality sheets and the repository inventory are
-archived with a DOI. The single-result reproduction of §4 is at
-`github.com/SebE585/etosha-batch-effect` and runs from the public files with
-pandas and numpy alone.
+archived at **<https://doi.org/10.5281/zenodo.21998425>**, a concept DOI that
+resolves to the current version. Development happens at
+`github.com/SebE585/ichnos`. The single-result reproduction of §4 has its own
+repository, `github.com/SebE585/etosha-batch-effect`, which downloads the
+public files and runs on pandas and numpy alone.
 
 All figures regenerate from the archived code.
 

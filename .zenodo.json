@@ -23,5 +23,6 @@
       "relation": "isSupplementedBy",
       "resource_type": "software"
     }
-  ]
+  ],
+  "notes": "The paper whose figures and numbers this archive produces is included as markdown source under docs/article/; the built PDF is attached to each GitHub release."
 }
