@@ -1,0 +1,59 @@
+{
+  "n_jeux": 353,
+  "n_readme": 351,
+  "n_avec_pathologie": 146,
+  "repetition": {
+    "n_mesures": 79,
+    "taux_cas_pct": 19.0,
+    "ic95_cas_pct": [
+      11.9,
+      29.0
+    ],
+    "taux_temoin_pct": 9.9,
+    "ic95_temoin_pct": [
+      6.9,
+      14.0
+    ],
+    "n_temoin": 274,
+    "n_dont_le_texte_propre_en_parle": 15,
+    "n_dont_le_readme_entier_en_parle": 15,
+    "n_readme": 79,
+    "n_note_this_dataset": 26
+  },
+  "troncature": {
+    "n_mesures": 55,
+    "taux_cas_pct": 9.1,
+    "ic95_cas_pct": [
+      3.9,
+      19.6
+    ],
+    "taux_temoin_pct": 11.4,
+    "ic95_temoin_pct": [
+      8.3,
+      15.5
+    ],
+    "n_temoin": 298,
+    "n_dont_le_texte_propre_en_parle": 5,
+    "n_dont_le_readme_entier_en_parle": 55,
+    "n_readme": 55,
+    "n_note_this_dataset": 25
+  },
+  "pics": {
+    "n_mesures": 53,
+    "taux_cas_pct": 5.7,
+    "ic95_cas_pct": [
+      1.9,
+      15.4
+    ],
+    "taux_temoin_pct": 7.0,
+    "ic95_temoin_pct": [
+      4.6,
+      10.5
+    ],
+    "n_temoin": 300,
+    "n_dont_le_texte_propre_en_parle": 3,
+    "n_dont_le_readme_entier_en_parle": 52,
+    "n_readme": 53,
+    "n_note_this_dataset": 14
+  }
+}

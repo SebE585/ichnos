@@ -20,11 +20,13 @@ Movebank Data Repository, 388 of which converted, covering 134,634,516 fixes,
 17,418 individuals and 1,120 dataset-years.
 
 **41.4 % of datasets carry at least one measurable instrument pathology, and
-none of them is declared.** Fifty-five datasets are published with coordinates
-truncated to four decimals or fewer, forty of them to a grid of 111 m or
-coarser; this is not recoverable. Seventy-nine repeat positions on more than
+none of them is declared in its deposit.** Fifty-five datasets are published
+with coordinates truncated to four decimals or fewer, forty of them to a grid
+of 111 m or coarser; this is not recoverable. Seventy-nine repeat positions on more than
 5 % of consecutive rows, from two distinguishable causes. Fifty-three carry
-gross position outliers.
+gross position outliers. A search of every metadata record and README finds
+declaration wording no more often in the datasets that carry a property than in
+those that do not.
 
 The detector uses no species-specific threshold: it compares every animal to
 its own step distribution. Applied unchanged across the corpus it recovers the
@@ -166,7 +168,44 @@ to end.
 | Position spikes above 0.05 % | 53 | 15.0 % |
 | **At least one of the three** | **146** | **41.4 %** |
 
-**None is declared anywhere in the metadata.**
+**None of it is declared in the deposit.** That claim is easy to make and easy
+to get wrong, so the section below measures it rather than asserting it.
+
+## Is any of it declared?
+
+For each of the 353 datasets I took the full DSpace metadata record and the
+README bitstream published beside the data, and searched the text that is
+specific to the dataset: the abstract, the README preamble and the
+`THIS DATASET:` notes. The attribute dictionary is excluded. It carries
+"units: decimal degrees" and "manually marked outlier" in every deposit, so
+searching it measures the repository template rather than the data, and returns
+the truncation wording on 55 datasets out of 55.
+
+The control is the same search, with the same terms, run on the datasets that
+do **not** carry the property.
+
+| Property | With it | Wording present | Control | Wording present |
+|---|---|---|---|---|
+| Coordinates truncated | 55 | 9.1 % [3.9, 19.6] | 298 | 11.4 % [8.3, 15.5] |
+| Position spikes | 53 | 5.7 % [1.9, 15.4] | 300 | 7.0 % [4.6, 10.5] |
+| Repeated positions | 79 | 19.0 % [11.9, 29.0] | 274 | 9.9 % [6.9, 14.0] |
+
+Wilson intervals at 95 %. For truncation and for spikes the wording is no more
+frequent when the property is present than when it is absent. The text does not
+track the data.
+
+Across the 187 property instances, 23 passages match anything close in wording,
+and reading all 23, none states the measured property. Not one of the 55
+datasets published at reduced coordinate precision mentions it: zero, upper
+bound 6.5 % at 95 %. The fifteen repetition cases that lift that family above
+its control describe Movebank's Duplicate Filter, which keys on tag id and
+timestamp and leaves untouched what is counted here, consecutive rows carrying
+identical coordinates at distinct timestamps. The three spike cases describe a
+speed filter or a manual outlier flagging that was run: they declare the
+cleaning, not what survived it.
+
+Movebank does carry per-fix flags, and the bench honours them where they exist.
+What has nowhere to be written is a property of the file as a whole.
 
 ## Truncation is the one that cannot be undone
 
@@ -735,6 +774,10 @@ looking for it.
   surveyed point or carried alongside a differential receiver. The bench
   therefore establishes internal consistency and detects disagreement; it does
   not establish accuracy against a known coordinate.
+- **The declaration search is keyword-based** and deliberately over-inclusive,
+  so a declaration phrased in terms none of its patterns match would be missed.
+  It covers the deposit and not the literature: an article may well state what
+  its data package does not.
 - **The out-and-back detector is blind to slow correlated drift.** It compares
   three consecutive positions, so a receiver drifting smoothly over minutes
   under multipath or ionospheric disturbance produces a locally smooth track
@@ -752,6 +795,9 @@ resolves to the current version. Development happens at
 `github.com/SebE585/ichnos`. The single-result reproduction of §4 has its own
 repository, `github.com/SebE585/etosha-batch-effect`, which downloads the
 public files and runs on pandas and numpy alone.
+
+The declaration search of §3.1 is `ichnos/common/declaration_scan.py`, and its
+output is archived beside it, one row per dataset with the passages it matched.
 
 All figures regenerate from the archived code.
 
