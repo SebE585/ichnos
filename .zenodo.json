@@ -1,7 +1,7 @@
 {
   "title": "ICHNOS: device metrology on 447 public animal-tracking datasets — bench, quality sheets and inventory",
   "upload_type": "software",
-  "description": "Bench, per-dataset quality sheets and repository inventory accompanying the paper <i>Instrument before inference</i>. Across 353 surveyed datasets from the Movebank Data Repository, 41.4 % carry at least one measurable instrument pathology and none is declared. The detector uses no species-specific threshold and recovers the documented Argos/GPS precision gap on its own over 287 datasets (p = 3.4e-07). No dataset is redistributed; the code downloads what it needs. Quality sheets inherit the licence of the dataset they describe, 34 of which are non-commercial.",
+  "description": "Bench, per-dataset quality sheets and repository inventory accompanying the paper <i>Instrument before inference</i>. Across 353 surveyed datasets from the Movebank Data Repository, 41.4 % carry at least one measurable instrument property that changes how its positions must be read, and none is declared. The detector uses no species-specific threshold and recovers the documented Argos/GPS precision gap on its own over 287 datasets (p = 3.4e-07). No dataset is redistributed; the code downloads what it needs. Quality sheets inherit the licence of the dataset they describe, 34 of which are non-commercial.",
   "creators": [
     {
       "name": "Edet, Sébastien"

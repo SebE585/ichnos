@@ -203,13 +203,13 @@ def main():
     with ThreadPoolExecutor(max_workers=8) as ex:
         res = list(ex.map(traite, lignes))
     d = pd.DataFrame(res)
-    d["a_une_patho"] = d.a_repetition | d.a_troncature | d.a_pics
+    d["a_une_propriete"] = d.a_repetition | d.a_troncature | d.a_pics
     d.to_parquet(OUT / "declaration_scan.parquet", index=False)
 
     resume = {
         "n_jeux": int(len(d)),
         "n_readme": int(d.readme.sum()),
-        "n_avec_pathologie": int(d.a_une_patho.sum()),
+        "n_avec_propriete": int(d.a_une_propriete.sum()),
     }
     for fam, col in (("repetition", "a_repetition"), ("troncature", "a_troncature"), ("pics", "a_pics")):
         sub = d[d[col]]

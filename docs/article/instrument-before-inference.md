@@ -19,8 +19,9 @@ I applied a species-agnostic quality bench to 447 public datasets from the
 Movebank Data Repository, 388 of which converted, covering 134,634,516 fixes,
 17,418 individuals and 1,120 dataset-years.
 
-**41.4 % of datasets carry at least one measurable instrument pathology, and
-none of them is declared in its deposit.** Fifty-five datasets are published
+**41.4 % of datasets carry at least one measurable instrument property that
+changes how their positions must be read, and none of them is declared in its
+deposit.** Fifty-five datasets are published
 with coordinates truncated to four decimals or fewer, forty of them to a grid
 of 111 m or coarser; this is not recoverable. Seventy-nine repeat positions on more than
 5 % of consecutive rows, from two distinguishable causes. Fifty-three carry
@@ -87,7 +88,8 @@ did. When the instrument is undescribed, so are they.
 This paper treats the error budget as a first-class question rather than a
 cleaning step. It asks three things of a public corpus:
 
-1. Can device pathologies be detected without knowing the species?
+1. Can instrument properties be detected from the data alone, without
+   knowing the species?
 2. How common are they, and are they declared?
 3. What would a data format have to record for the answer to be visible?
 
@@ -158,10 +160,11 @@ paper.
 
 # The state of the corpus
 
-Three pathologies were measured on the 353 datasets the bench could process end
+Three instrument properties were measured on the 353 datasets the bench could
+process end
 to end.
 
-| Pathology | Datasets | Share |
+| Property | Datasets | Share |
 |---|---|---|
 | Repeated positions above 5 % | 79 | 22.4 % |
 | Coordinates truncated to $\leq$ 4 decimals | 55 | 15.6 % |
@@ -222,7 +225,7 @@ analysis.
 
 ## Repeated positions have two distinguishable causes
 
-Repetition is the most widespread pathology, with a maximum of 97.7 % of
+Repetition is the most widespread of the three, with a maximum of 97.7 % of
 consecutive rows carrying coordinates identical to the previous one. The cause
 is not the same everywhere, and the coordinate grain separates the two cases:
 
@@ -232,7 +235,7 @@ is not the same everywhere, and the coordinate grain separates the two cases:
 | 6 decimals, minimum step 2 cm, 94 % repeats | the device republishing a stale fix |
 
 Both matter, both are invisible in the metadata, and only the second is a
-device pathology at all. A criterion that did not look at the grain would
+state of the device at all. A criterion that did not look at the grain would
 conflate them.
 
 ---
@@ -778,6 +781,11 @@ looking for it.
   so a declaration phrased in terms none of its patterns match would be missed.
   It covers the deposit and not the literature: an article may well state what
   its data package does not.
+- **Reduced coordinate precision is not always accidental.** Some deposits
+  coarsen positions deliberately, to protect a sensitive species or a site.
+  The bench cannot tell a deliberate grid from a lossy export, and neither can
+  a reader: in the 55 datasets concerned, nothing in the deposit says which it
+  is. The measurement stands either way; the interpretation does not.
 - **The out-and-back detector is blind to slow correlated drift.** It compares
   three consecutive positions, so a receiver drifting smoothly over minutes
   under multipath or ionospheric disturbance produces a locally smooth track

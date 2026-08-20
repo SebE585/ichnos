@@ -1,7 +1,7 @@
 {
   "n_jeux": 353,
   "n_readme": 351,
-  "n_avec_pathologie": 146,
+  "n_avec_propriete": 146,
   "repetition": {
     "n_mesures": 79,
     "taux_cas_pct": 19.0,

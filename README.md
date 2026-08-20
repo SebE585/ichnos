@@ -15,10 +15,10 @@ were exact.
 
 Of the 447 items downloaded from the Movebank Data Repository, 388 converted
 and 353 carried enough data to be surveyed end to end. Of those
-353, **41.4 % carry at least one measurable instrument pathology, and
+353, **41.4 % carry at least one measurable instrument property, and
 none of them is declared.**
 
-| Pathology | Datasets | Share |
+| Property | Datasets | Share |
 |---|---|---|
 | Repeated positions above 5 % of rows | 79 | 22.4 % |
 | Coordinates truncated to 4 decimals or fewer | 55 | 15.6 % |
