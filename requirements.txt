@@ -6,6 +6,11 @@ pyarrow>=14          # parquet engine
 scipy>=1.11          # Mann-Whitney, parabolic interpolation
 matplotlib>=3.8      # figures only
 
+# Optional, and only for ichnos/elephants/export_gis.py, which writes the GIS
+# layers. The bench itself never needs it, and the script says so if it is
+# missing.
+# geopandas>=0.14
+
 # Open pivot format. Pre-release: pinned to the versions the conformance
 # survey of the paper was measured against. See the note in the README.
 telemachus==1.0.0a3

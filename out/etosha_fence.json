@@ -1,0 +1,41 @@
+{
+  "n_rows_in_file": 2930268,
+  "n_marked_invisible": 5,
+  "n_fixes": 2930263,
+  "n_flagged": 29446,
+  "n_outside": 7950,
+  "outside_rate": 0.002713067052343083,
+  "outside_rate_flagged": 0.003362086531277593,
+  "outside_rate_flagged_ci": [
+    0.0027625728829893652,
+    0.004091168564638658
+  ],
+  "outside_rate_unflagged": 0.0027064788988757304,
+  "outside_rate_unflagged_ci": [
+    0.0026473464763847347,
+    0.0027669284677159693
+  ],
+  "n_excursions": 105,
+  "n_excursions_single_fix": 13,
+  "n_excursions_single_fix_flagged": 0,
+  "band_m": 500.0,
+  "n_excursions_deep": 18,
+  "deep_by_collar": [
+    {
+      "collar": "LA12",
+      "n": 1,
+      "fixes": 28,
+      "max_d_m": 936.1319053065334
+    },
+    {
+      "collar": "LA3",
+      "n": 17,
+      "fixes": 6652,
+      "max_d_m": 13452.582030374339
+    }
+  ],
+  "q75_max_d_m": 213.45147848594095,
+  "top_collar_share_of_outside_fixes": 0.9776100628930817,
+  "collars_with_excursion": 4,
+  "collars_total": 15
+}

@@ -137,6 +137,35 @@ release script refuses to run when the PDF is older than the markdown.
 This repository holds what reproduces the paper. The bench carries further
 measurements that the paper does not use, and they are not shipped here.
 
+### Putting it on a map
+
+`make gis` writes the deposit as three layers, GeoPackage and shapefile, with
+the flagged fixes marked: the fixes as points, the continuous tracks as lines,
+and one line per collar per day. It needs `geopandas`, which the bench itself
+does not.
+
+Three things it does that a group-by and a `LineString` do not, and each one
+changes what the map shows.
+
+It drops the five rows the Etosha deposit marks `visible = false`. Movebank
+hides them in its own interface, a CSV reader does not, and two of them sit
+38 km and 1,419 km outside the park. As points they are invisible; as lines
+they are the longest feature on the map.
+
+It cuts a track wherever the collar stops reporting for more than six hours,
+instead of drawing one straight segment across a three-month silence.
+
+It keeps the timestamp as ISO text, because the shapefile attribute table has
+no date-time type and truncates field names to ten characters. The time of day
+is what a vegetation index compositing needs.
+
+`make fence` then asks whether the tracks that leave the reserve are the
+instrument rather than the animal. On this deposit they are not, and the
+control is what says so: 0.34 % of flagged fixes fall outside the fence against
+0.27 % of the others, and none of the thirteen single-fix excursions is
+flagged. One collar carries 97.8 % of the outside fixes, and 87 of the 105
+excursions stay within 500 m of the fence line.
+
 ## How this was built, and what went wrong
 
 Two days of work on public data. The central mechanism of the elephant case was

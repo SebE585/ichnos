@@ -28,6 +28,12 @@ elephants:       ## case 1: fleet metrology, burst ranks, subsampling
 	$(PY) -m ichnos.elephants.fleet_health
 	$(PY) -m ichnos.elephants.burst_ranks
 
+fence:           ## are the fixes outside the reserve the animal or the receiver?
+	$(PY) -m ichnos.elephants.fence_crossings
+
+gis:             ## points, tracks and day paths as GeoPackage and shapefile
+	$(PY) -m ichnos.elephants.export_gis
+
 baboons:         ## case 2: position noise, gravity calibration, gait profiles
 	$(PY) -m ichnos.adapters.eobs
 	$(PY) -m ichnos.baboons.bench
