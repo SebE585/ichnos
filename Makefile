@@ -1,4 +1,5 @@
 PY ?= python3
+SOURCE ?= etosha
 A  := ichnos/adapters
 E  := ichnos/elephants
 B  := ichnos/baboons
@@ -29,10 +30,10 @@ elephants:       ## case 1: fleet metrology, burst ranks, subsampling
 	$(PY) -m ichnos.elephants.burst_ranks
 
 fence:           ## are the fixes outside the reserve the animal or the receiver?
-	$(PY) -m ichnos.elephants.fence_crossings
+	$(PY) -m ichnos.elephants.fence_crossings --source $(SOURCE)
 
 gis:             ## points, tracks and day paths as GeoPackage and shapefile
-	$(PY) -m ichnos.elephants.export_gis
+	$(PY) -m ichnos.common.export_gis --source $(SOURCE)
 
 baboons:         ## case 2: position noise, gravity calibration, gait profiles
 	$(PY) -m ichnos.adapters.eobs

@@ -12,7 +12,14 @@ It compares the outside rate of the flagged fixes with the outside rate of the
 others, which is the control that a bare count cannot replace, since an animal
 walking the fence line puts good fixes on both sides.
 
-Writes out/etosha_fence.json and out/etosha_fence_excursions.parquet.
+It reads a pivot file and a boundary polygon, both named on the command line,
+so the control is not tied to this deposit. Etosha is the default because it is
+the only case in the repository that ships a boundary.
+
+    python3 -m ichnos.elephants.fence_crossings
+    python3 -m ichnos.elephants.fence_crossings --source kruger --polygon ...
+
+Writes out/<source>_fence.json and out/<source>_fence_excursions.parquet.
 
 Numpy only, like bench.py: the shapefile reader, the projection and the
 point-in-polygon test come from there, so this script adds no dependency.
@@ -20,6 +27,7 @@ point-in-polygon test come from there, so this script adds no dependency.
 
 from __future__ import annotations
 
+import argparse
 import json
 import sys
 from pathlib import Path
@@ -36,16 +44,34 @@ BASE = Path(__file__).resolve().parents[2]
 OUT = BASE / "out"
 DATA = BASE / "data"
 
-FIXES = DATA / ("African elephants in Etosha National Park "
-                "(data from Tsalyuk et al. 2018).csv")
 FENCE = DATA / "enp_fence" / "enp fence poly.shp"
-FLAGGED = OUT / "etosha_flagged_fixes.csv"
+
+# The projection of bench.py is the transverse Mercator of UTM zone 33S, which
+# is the zone of the Etosha polygon. Another boundary in another zone needs its
+# own central meridian, hence the option rather than a constant.
+ZONE_CM_DEG = 15.0
 
 # An excursion is scored against the fence itself and against a band around it.
 # A flagged fix has a median error of 241 m, so an excursion that stays inside
 # the band is not evidence either way: it is the fence line seen through the
 # receiver's own scatter.
 BAND_M = 500.0
+
+
+def to_numpy_dtypes(df: pd.DataFrame) -> pd.DataFrame:
+    """Bring an arrow-backed frame back to plain numpy dtypes.
+
+    The pivot files carry `bool[pyarrow]` and pandas string columns. Neither
+    `cumsum` nor the OGR drivers accept them, and both fail late with a message
+    about a dtype rather than about the data. Converted once, at the door.
+    """
+    for c in df.columns:
+        d = str(df[c].dtype)
+        if "bool" in d and d != "bool":
+            df[c] = df[c].fillna(False).to_numpy(dtype=bool)
+        elif d in ("string", "str") or "string" in d:
+            df[c] = df[c].astype(object)
+    return df
 
 
 def wilson(k: int, n: int, z: float = 1.96) -> tuple[float, float]:
@@ -78,33 +104,52 @@ def dist_to_ring(x, y, ring):
 
 
 def main() -> None:
-    ring = max(read_shp_polygons(FENCE), key=len)
+    ap = argparse.ArgumentParser(description=__doc__.split("\n")[1])
+    ap.add_argument("--source", default="etosha",
+                    help="pivot file to read, out/<source>_pivot.parquet")
+    ap.add_argument("--polygon", default=str(FENCE),
+                    help="boundary shapefile, projected")
+    ap.add_argument("--zone-cm-deg", type=float, default=ZONE_CM_DEG,
+                    help="central meridian of the polygon's UTM zone")
+    ap.add_argument("--flags", default=None,
+                    help="list of flagged keys; defaults to "
+                         "out/<source>_flagged_fixes.csv")
+    a = ap.parse_args()
+
+    ring = max(read_shp_polygons(a.polygon), key=len)
     if not np.allclose(ring[0], ring[-1]):
         ring = np.vstack([ring, ring[:1]])
 
-    raw = pd.read_csv(
-        FIXES,
-        usecols=["timestamp", "location-long", "location-lat", "visible",
-                 "individual-local-identifier"],
-        parse_dates=["timestamp"],
-        low_memory=False,
-    ).rename(columns={"location-long": "lon", "location-lat": "lat",
-                      "individual-local-identifier": "collar"})
+    pivot = OUT / f"{a.source}_pivot.parquet"
+    if not pivot.exists():
+        raise SystemExit(f"{pivot} is missing: run the adapter first")
+    raw = to_numpy_dtypes(pd.read_parquet(pivot)).rename(
+        columns={"device_id": "collar", "ts": "timestamp"})
 
-    # The deposit ships the curators' own outliers in the file and marks them
-    # invisible. Movebank hides them, a CSV reader does not. Counted here
-    # rather than dropped in silence: two of the five are the deepest
-    # excursions in the file and neither is a movement.
-    hidden = raw[raw.visible == False]  # noqa: E712
-    fx = raw[raw.visible == True].copy()  # noqa: E712
+    # A Movebank export ships the curators' own outliers and marks them
+    # invisible. The repository interface hides them, a reader does not.
+    # Counted here rather than dropped in silence: on Etosha two of the five
+    # are the deepest excursions in the file and neither is a movement.
+    if "x_movebank_visible" in raw.columns:
+        keep = raw.x_movebank_visible.fillna(True)
+        hidden, fx = raw[~keep], raw[keep].copy()
+    else:
+        hidden, fx = raw.iloc[:0], raw.copy()
     fx = fx.dropna(subset=["lon", "lat"]).sort_values(["collar", "timestamp"])
 
-    fg = pd.read_csv(FLAGGED, parse_dates=["discarded_fix_ts"])
-    flagged = set(zip(fg.device_id, fg.discarded_fix_ts))
-    fx["flagged"] = [(c, t) in flagged
-                     for c, t in zip(fx.collar, fx.timestamp)]
+    flags = Path(a.flags) if a.flags else OUT / f"{a.source}_flagged_fixes.csv"
+    if flags.exists():
+        fg = pd.read_csv(flags, parse_dates=["discarded_fix_ts"])
+        keys = set(zip(fg.device_id,
+                       pd.to_datetime(fg.discarded_fix_ts, utc=True)))
+        fx["flagged"] = [(c, t) in keys
+                         for c, t in zip(fx.collar, fx.timestamp)]
+    else:
+        print(f"no flag list at {flags}: the control has nothing to compare")
+        fx["flagged"] = False
 
-    E, N = wgs84_to_utm(fx.lat.values, fx.lon.values)
+    E, N = wgs84_to_utm(fx.lat.values, fx.lon.values,
+                        zone_cm_deg=a.zone_cm_deg)
     fx["inside"] = point_in_poly(E, N, ring)
 
     fx["d_fence_m"] = np.nan
@@ -160,9 +205,9 @@ def main() -> None:
     }
 
     OUT.mkdir(exist_ok=True)
-    (OUT / "etosha_fence.json").write_text(json.dumps(res, indent=2,
-                                                      default=str))
-    exc.to_parquet(OUT / "etosha_fence_excursions.parquet", index=False)
+    (OUT / f"{a.source}_fence.json").write_text(
+        json.dumps(res, indent=2, default=str))
+    exc.to_parquet(OUT / f"{a.source}_fence_excursions.parquet", index=False)
 
     for k, v in res.items():
         print(f"{k}: {v}")
