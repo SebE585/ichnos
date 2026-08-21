@@ -139,18 +139,27 @@ measurements that the paper does not use, and they are not shipped here.
 
 ### Putting it on a map
 
-`make gis` writes the deposit as three layers, GeoPackage and shapefile, with
-the flagged fixes marked: the fixes as points, the continuous tracks as lines,
-and one line per collar per day. It needs `geopandas`, which the bench itself
-does not.
+`make gis` writes a dataset as three layers, GeoPackage and shapefile, with the
+flagged fixes marked: the fixes as points, the continuous tracks as lines, and
+one line per carrier per day. It reads the pivot file an adapter produced, so
+it runs on any of them, `make gis SOURCE=storks_gps` as readily as on the
+default. It needs `geopandas`, which the bench itself does not.
 
 Three things it does that a group-by and a `LineString` do not, and each one
 changes what the map shows.
 
-It drops the five rows the Etosha deposit marks `visible = false`. Movebank
-hides them in its own interface, a CSV reader does not, and two of them sit
-38 km and 1,419 km outside the park. As points they are invisible; as lines
-they are the longest feature on the map.
+It drops the rows the source itself marks hidden, `visible = false` in a
+Movebank export. The repository interface hides them, a CSV reader does not.
+The Etosha deposit has five, and two of them sit 38 km and 1,419 km outside the
+park: as points they are invisible, as lines they are the longest feature on
+the map.
+
+This is the one place in the bench where such a row is dropped, and it is worth
+stating plainly. **Everything else here measures the file as delivered**, hidden
+rows included, because that is what a reader who downloads the CSV actually
+gets. The export is the exception because a map is not a count: an outlier that
+is one speck among millions of points becomes the longest line on the same
+data. Neither choice is silent, and the export prints how many rows it dropped.
 
 It cuts a track wherever the collar stops reporting for more than six hours,
 instead of drawing one straight segment across a three-month silence.
